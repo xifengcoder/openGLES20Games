@@ -1,0 +1,8 @@
+rootProject.name = "OpenGLES20Games"
+include ':app'
+include ':chapter03'
+include ':chapter05_2'
+include ':chapter05_4'
+include ':chapter06_1'
+include ':chapter06_6'
+include ':chapter07_1'
