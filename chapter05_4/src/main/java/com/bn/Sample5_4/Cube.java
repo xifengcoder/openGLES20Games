@@ -6,33 +6,33 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-//ÑÕÉ«Á¢·½Ìå
+//é¢œè‰²ç«‹æ–¹ä½“
 public class Cube {
-    private int mProgram;//×Ô¶¨ÒåäÖÈ¾¹ÜÏß×ÅÉ«Æ÷³ÌĞòid
-    private int muMVPMatrixHandle;//×Ü±ä»»¾ØÕóÒıÓÃ
-    private int maPositionHandle; //¶¥µãÎ»ÖÃÊôĞÔÒıÓÃ
-    private int maColorHandle; //¶¥µãÑÕÉ«ÊôĞÔÒıÓÃ
-    private String mVertexShader;//¶¥µã×ÅÉ«Æ÷´úÂë½Å±¾
-    private String mFragmentShader;//Æ¬Ôª×ÅÉ«Æ÷´úÂë½Å±¾
+    private int mProgram;//è‡ªå®šä¹‰æ¸²æŸ“ç®¡çº¿ç€è‰²å™¨ç¨‹åºid
+    private int muMVPMatrixHandle;//æ€»å˜æ¢çŸ©é˜µå¼•ç”¨
+    private int maPositionHandle; //é¡¶ç‚¹ä½ç½®å±æ€§å¼•ç”¨
+    private int maColorHandle; //é¡¶ç‚¹é¢œè‰²å±æ€§å¼•ç”¨
+    private String mVertexShader;//é¡¶ç‚¹ç€è‰²å™¨ä»£ç è„šæœ¬
+    private String mFragmentShader;//ç‰‡å…ƒç€è‰²å™¨ä»£ç è„šæœ¬
 
-    private FloatBuffer mVertexBuffer;//¶¥µã×ø±êÊı¾İ»º³å
-    private FloatBuffer mColorBuffer;//¶¥µã×ÅÉ«Êı¾İ»º³å
+    private FloatBuffer mVertexBuffer;//é¡¶ç‚¹åæ ‡æ•°æ®ç¼“å†²
+    private FloatBuffer mColorBuffer;//é¡¶ç‚¹ç€è‰²æ•°æ®ç¼“å†²
     private int vCount = 0;
 
     public Cube(MySurfaceView mv) {
-        //³õÊ¼»¯¶¥µã×ø±êÓë×ÅÉ«Êı¾İ
+        //åˆå§‹åŒ–é¡¶ç‚¹åæ ‡ä¸ç€è‰²æ•°æ®
         initVertexData();
-        //³õÊ¼»¯shader
+        //åˆå§‹åŒ–shader
         initShader(mv);
     }
 
-    //³õÊ¼»¯¶¥µã×ø±êÓë×ÅÉ«Êı¾İµÄ·½·¨
+    //åˆå§‹åŒ–é¡¶ç‚¹åæ ‡ä¸ç€è‰²æ•°æ®çš„æ–¹æ³•
     public void initVertexData() {
-        //¶¥µã×ø±êÊı¾İµÄ³õÊ¼»¯================begin============================
+        //é¡¶ç‚¹åæ ‡æ•°æ®çš„åˆå§‹åŒ–================begin============================
         vCount = 12 * 6;
 
         float vertices[] = new float[]{
-                //Ç°Ãæ
+                //å‰é¢
                 0, 0, Constant.UNIT_SIZE,
                 Constant.UNIT_SIZE, Constant.UNIT_SIZE, Constant.UNIT_SIZE,
                 -Constant.UNIT_SIZE, Constant.UNIT_SIZE, Constant.UNIT_SIZE,
@@ -45,7 +45,7 @@ public class Cube {
                 0, 0, Constant.UNIT_SIZE,
                 Constant.UNIT_SIZE, -Constant.UNIT_SIZE, Constant.UNIT_SIZE,
                 Constant.UNIT_SIZE, Constant.UNIT_SIZE, Constant.UNIT_SIZE,
-                //ºóÃæ
+                //åé¢
                 0, 0, -Constant.UNIT_SIZE,
                 Constant.UNIT_SIZE, Constant.UNIT_SIZE, -Constant.UNIT_SIZE,
                 Constant.UNIT_SIZE, -Constant.UNIT_SIZE, -Constant.UNIT_SIZE,
@@ -58,7 +58,7 @@ public class Cube {
                 0, 0, -Constant.UNIT_SIZE,
                 -Constant.UNIT_SIZE, Constant.UNIT_SIZE, -Constant.UNIT_SIZE,
                 Constant.UNIT_SIZE, Constant.UNIT_SIZE, -Constant.UNIT_SIZE,
-                //×óÃæ
+                //å·¦é¢
                 -Constant.UNIT_SIZE, 0, 0,
                 -Constant.UNIT_SIZE, Constant.UNIT_SIZE, Constant.UNIT_SIZE,
                 -Constant.UNIT_SIZE, Constant.UNIT_SIZE, -Constant.UNIT_SIZE,
@@ -71,7 +71,7 @@ public class Cube {
                 -Constant.UNIT_SIZE, 0, 0,
                 -Constant.UNIT_SIZE, -Constant.UNIT_SIZE, Constant.UNIT_SIZE,
                 -Constant.UNIT_SIZE, Constant.UNIT_SIZE, Constant.UNIT_SIZE,
-                //ÓÒÃæ
+                //å³é¢
                 Constant.UNIT_SIZE, 0, 0,
                 Constant.UNIT_SIZE, Constant.UNIT_SIZE, Constant.UNIT_SIZE,
                 Constant.UNIT_SIZE, -Constant.UNIT_SIZE, Constant.UNIT_SIZE,
@@ -84,7 +84,7 @@ public class Cube {
                 Constant.UNIT_SIZE, 0, 0,
                 Constant.UNIT_SIZE, Constant.UNIT_SIZE, -Constant.UNIT_SIZE,
                 Constant.UNIT_SIZE, Constant.UNIT_SIZE, Constant.UNIT_SIZE,
-                //ÉÏÃæ
+                //ä¸Šé¢
                 0, Constant.UNIT_SIZE, 0,
                 Constant.UNIT_SIZE, Constant.UNIT_SIZE, Constant.UNIT_SIZE,
                 Constant.UNIT_SIZE, Constant.UNIT_SIZE, -Constant.UNIT_SIZE,
@@ -97,7 +97,7 @@ public class Cube {
                 0, Constant.UNIT_SIZE, 0,
                 -Constant.UNIT_SIZE, Constant.UNIT_SIZE, Constant.UNIT_SIZE,
                 Constant.UNIT_SIZE, Constant.UNIT_SIZE, Constant.UNIT_SIZE,
-                //ÏÂÃæ
+                //ä¸‹é¢
                 0, -Constant.UNIT_SIZE, 0,
                 Constant.UNIT_SIZE, -Constant.UNIT_SIZE, Constant.UNIT_SIZE,
                 -Constant.UNIT_SIZE, -Constant.UNIT_SIZE, Constant.UNIT_SIZE,
@@ -112,143 +112,143 @@ public class Cube {
                 Constant.UNIT_SIZE, -Constant.UNIT_SIZE, Constant.UNIT_SIZE,
         };
 
-        //´´½¨¶¥µã×ø±êÊı¾İ»º³å
-        //vertices.length*4ÊÇÒòÎªÒ»¸öÕûÊıËÄ¸ö×Ö½Ú
+        //åˆ›å»ºé¡¶ç‚¹åæ ‡æ•°æ®ç¼“å†²
+        //vertices.length*4æ˜¯å› ä¸ºä¸€ä¸ªæ•´æ•°å››ä¸ªå­—èŠ‚
         mVertexBuffer = ByteBuffer.allocateDirect(vertices.length * 4)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
-                .put(vertices);//Ïò»º³åÇøÖĞ·ÅÈë¶¥µã×ø±êÊı¾İ
-        mVertexBuffer.position(0);//ÉèÖÃ»º³åÇøÆğÊ¼Î»ÖÃ
-        //ÌØ±ğÌáÊ¾£ºÓÉÓÚ²»Í¬Æ½Ì¨×Ö½ÚË³Ğò²»Í¬Êı¾İµ¥Ôª²»ÊÇ×Ö½ÚµÄÒ»¶¨Òª¾­¹ıByteBuffer
-        //×ª»»£¬¹Ø¼üÊÇÒªÍ¨¹ıByteOrderÉèÖÃnativeOrder()£¬·ñÔòÓĞ¿ÉÄÜ»á³öÎÊÌâ
-        //¶¥µã×ø±êÊı¾İµÄ³õÊ¼»¯================end============================
+                .put(vertices);//å‘ç¼“å†²åŒºä¸­æ”¾å…¥é¡¶ç‚¹åæ ‡æ•°æ®
+        mVertexBuffer.position(0);//è®¾ç½®ç¼“å†²åŒºèµ·å§‹ä½ç½®
+        //ç‰¹åˆ«æç¤ºï¼šç”±äºä¸åŒå¹³å°å­—èŠ‚é¡ºåºä¸åŒæ•°æ®å•å…ƒä¸æ˜¯å­—èŠ‚çš„ä¸€å®šè¦ç»è¿‡ByteBuffer
+        //è½¬æ¢ï¼Œå…³é”®æ˜¯è¦é€šè¿‡ByteOrderè®¾ç½®nativeOrder()ï¼Œå¦åˆ™æœ‰å¯èƒ½ä¼šå‡ºé—®é¢˜
+        //é¡¶ç‚¹åæ ‡æ•°æ®çš„åˆå§‹åŒ–================end============================
 
-        //¶¥µãÑÕÉ«ÖµÊı×é£¬Ã¿¸ö¶¥µã4¸öÉ«²ÊÖµRGBA
+        //é¡¶ç‚¹é¢œè‰²å€¼æ•°ç»„ï¼Œæ¯ä¸ªé¡¶ç‚¹4ä¸ªè‰²å½©å€¼RGBA
         float colors[] = new float[]{
-                //Ç°Ãæ
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                //å‰é¢
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 0, 0, 0,
                 1, 0, 0, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 0, 0, 0,
                 1, 0, 0, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 0, 0, 0,
                 1, 0, 0, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 0, 0, 0,
                 1, 0, 0, 0,
-                //ºóÃæ
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                //åé¢
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 0, 1, 0,
                 0, 0, 1, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 0, 1, 0,
                 0, 0, 1, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 0, 1, 0,
                 0, 0, 1, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 0, 1, 0,
                 0, 0, 1, 0,
-                //×óÃæ
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                //å·¦é¢
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 0, 1, 0,
                 1, 0, 1, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 0, 1, 0,
                 1, 0, 1, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 0, 1, 0,
                 1, 0, 1, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 0, 1, 0,
                 1, 0, 1, 0,
-                //ÓÒÃæ
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                //å³é¢
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 1, 0, 0,
                 1, 1, 0, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 1, 0, 0,
                 1, 1, 0, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 1, 0, 0,
                 1, 1, 0, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 1, 1, 0, 0,
                 1, 1, 0, 0,
-                //ÉÏÃæ
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                //ä¸Šé¢
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 1, 0, 0,
                 0, 1, 0, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 1, 0, 0,
                 0, 1, 0, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 1, 0, 0,
                 0, 1, 0, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 1, 0, 0,
                 0, 1, 0, 0,
-                //ÏÂÃæ
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                //ä¸‹é¢
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 1, 1, 0,
                 0, 1, 1, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 1, 1, 0,
                 0, 1, 1, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 1, 1, 0,
                 0, 1, 1, 0,
-                1, 1, 1, 0,//ÖĞ¼äÎª°×É«
+                1, 1, 1, 0,//ä¸­é—´ä¸ºç™½è‰²
                 0, 1, 1, 0,
                 0, 1, 1, 0,
         };
 
-        //´´½¨¶¥µã×ÅÉ«Êı¾İ»º³å
+        //åˆ›å»ºé¡¶ç‚¹ç€è‰²æ•°æ®ç¼“å†²
         mColorBuffer = ByteBuffer.allocateDirect(colors.length * 4)
                 .order(ByteOrder.nativeOrder())
-                .asFloatBuffer();//×ª»»ÎªFloatĞÍ»º³å
-        mColorBuffer.put(colors);//Ïò»º³åÇøÖĞ·ÅÈë¶¥µã×ÅÉ«Êı¾İ
-        mColorBuffer.position(0);//ÉèÖÃ»º³åÇøÆğÊ¼Î»ÖÃ
-        //ÌØ±ğÌáÊ¾£ºÓÉÓÚ²»Í¬Æ½Ì¨×Ö½ÚË³Ğò²»Í¬Êı¾İµ¥Ôª²»ÊÇ×Ö½ÚµÄÒ»¶¨Òª¾­¹ıByteBuffer
-        //×ª»»£¬¹Ø¼üÊÇÒªÍ¨¹ıByteOrderÉèÖÃnativeOrder()£¬·ñÔòÓĞ¿ÉÄÜ»á³öÎÊÌâ
-        //¶¥µã×ÅÉ«Êı¾İµÄ³õÊ¼»¯================end============================
+                .asFloatBuffer();//è½¬æ¢ä¸ºFloatå‹ç¼“å†²
+        mColorBuffer.put(colors);//å‘ç¼“å†²åŒºä¸­æ”¾å…¥é¡¶ç‚¹ç€è‰²æ•°æ®
+        mColorBuffer.position(0);//è®¾ç½®ç¼“å†²åŒºèµ·å§‹ä½ç½®
+        //ç‰¹åˆ«æç¤ºï¼šç”±äºä¸åŒå¹³å°å­—èŠ‚é¡ºåºä¸åŒæ•°æ®å•å…ƒä¸æ˜¯å­—èŠ‚çš„ä¸€å®šè¦ç»è¿‡ByteBuffer
+        //è½¬æ¢ï¼Œå…³é”®æ˜¯è¦é€šè¿‡ByteOrderè®¾ç½®nativeOrder()ï¼Œå¦åˆ™æœ‰å¯èƒ½ä¼šå‡ºé—®é¢˜
+        //é¡¶ç‚¹ç€è‰²æ•°æ®çš„åˆå§‹åŒ–================end============================
     }
 
-    //³õÊ¼»¯shader
+    //åˆå§‹åŒ–shader
     public void initShader(MySurfaceView mv) {
-        //¼ÓÔØ¶¥µã×ÅÉ«Æ÷µÄ½Å±¾ÄÚÈİ
+        //åŠ è½½é¡¶ç‚¹ç€è‰²å™¨çš„è„šæœ¬å†…å®¹
         mVertexShader = ShaderUtil.loadFromAssetsFile("vertex.sh", mv.getResources());
-        //¼ÓÔØÆ¬Ôª×ÅÉ«Æ÷µÄ½Å±¾ÄÚÈİ
+        //åŠ è½½ç‰‡å…ƒç€è‰²å™¨çš„è„šæœ¬å†…å®¹
         mFragmentShader = ShaderUtil.loadFromAssetsFile("frag.sh", mv.getResources());
-        //»ùÓÚ¶¥µã×ÅÉ«Æ÷ÓëÆ¬Ôª×ÅÉ«Æ÷´´½¨³ÌĞò
+        //åŸºäºé¡¶ç‚¹ç€è‰²å™¨ä¸ç‰‡å…ƒç€è‰²å™¨åˆ›å»ºç¨‹åº
         mProgram = ShaderUtil.createProgram(mVertexShader, mFragmentShader);
-        //»ñÈ¡³ÌĞòÖĞ¶¥µãÎ»ÖÃÊôĞÔÒıÓÃid  
+        //è·å–ç¨‹åºä¸­é¡¶ç‚¹ä½ç½®å±æ€§å¼•ç”¨id
         maPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
-        //»ñÈ¡³ÌĞòÖĞ¶¥µãÑÕÉ«ÊôĞÔÒıÓÃid  
+        //è·å–ç¨‹åºä¸­é¡¶ç‚¹é¢œè‰²å±æ€§å¼•ç”¨id
         maColorHandle = GLES20.glGetAttribLocation(mProgram, "aColor");
-        //»ñÈ¡³ÌĞòÖĞ×Ü±ä»»¾ØÕóÒıÓÃid
+        //è·å–ç¨‹åºä¸­æ€»å˜æ¢çŸ©é˜µå¼•ç”¨id
         muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
     }
 
     public void drawSelf() {
-        //ÖÆ¶¨Ê¹ÓÃÄ³Ì×shader³ÌĞò
+        //åˆ¶å®šä½¿ç”¨æŸå¥—shaderç¨‹åº
         GLES20.glUseProgram(mProgram);
-        //½«×îÖÕ±ä»»¾ØÕó´«Èëshader³ÌĞò
+        //å°†æœ€ç»ˆå˜æ¢çŸ©é˜µä¼ å…¥shaderç¨‹åº
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
-        //Îª»­±ÊÖ¸¶¨¶¥µãÎ»ÖÃÊı¾İ
+        //ä¸ºç”»ç¬”æŒ‡å®šé¡¶ç‚¹ä½ç½®æ•°æ®
         GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT,
                 false, 3 * 4, mVertexBuffer
         );
-        //Îª»­±ÊÖ¸¶¨¶¥µã×ÅÉ«Êı¾İ
+        //ä¸ºç”»ç¬”æŒ‡å®šé¡¶ç‚¹ç€è‰²æ•°æ®
         GLES20.glVertexAttribPointer(maColorHandle, 4, GLES20.GL_FLOAT,
                 false, 4 * 4, mColorBuffer
         );
-        //ÔÊĞí¶¥µãÎ»ÖÃÊı¾İÊı×é
+        //å…è®¸é¡¶ç‚¹ä½ç½®æ•°æ®æ•°ç»„
         GLES20.glEnableVertexAttribArray(maPositionHandle);
         GLES20.glEnableVertexAttribArray(maColorHandle);
-        //»æÖÆÁ¢·½Ìå
+        //ç»˜åˆ¶ç«‹æ–¹ä½“
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vCount);
     }
 }
