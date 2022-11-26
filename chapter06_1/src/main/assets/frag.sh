@@ -1,24 +1,21 @@
-precision mediump float;
-uniform float uR;
-varying vec2 mcLongLat;//½ÓÊÕ´Ó¶¥µã×ÅÉ«Æ÷¹ıÀ´µÄ²ÎÊı
-varying vec3 vPosition;//½ÓÊÕ´Ó¶¥µã×ÅÉ«Æ÷¹ıÀ´µÄ¶¥µãÎ»ÖÃ
-void main()                         
+precision mediump float; //æŒ‡å®šæµ®ç‚¹ç›¸å…³å˜é‡çš„ç²¾åº¦
+uniform float uRadius; //ä»å®¿ä¸»ç¨‹åºä¸­ä¼ å…¥çš„çƒåŠå¾„
+varying vec2 mcLongLat;//æ¥æ”¶ä»é¡¶ç‚¹ç€è‰²å™¨è¿‡æ¥çš„å‚æ•°
+varying vec3 vPosition;//æ¥æ”¶ä»é¡¶ç‚¹ç€è‰²å™¨è¿‡æ¥çš„é¡¶ç‚¹ä½ç½®
+void main()
 {
    vec3 color;
-   float n = 8.0;//Ò»¸ö×ø±ê·ÖÁ¿·ÖµÄ×Ü·İÊı
-   float span = 2.0*uR/n;//Ã¿Ò»·İµÄ³¤¶È
-   //Ã¿Ò»Î¬ÔÚÁ¢·½ÌåÄÚµÄĞĞÁĞÊı
-   int i = int((vPosition.x + uR)/span);
-   int j = int((vPosition.y + uR)/span);
-   int k = int((vPosition.z + uR)/span);
-   //¼ÆËãµ±µãÓ¦Î»ÓÚ°×É«¿é»¹ÊÇºÚÉ«¿éÖĞ
+   float n = 12.0;//ä¸€ä¸ªåæ ‡åˆ†é‡åˆ†çš„æ€»ä»½æ•°
+   float span = 2.0 * uRadius / n;//å¤–æ¥ç«‹æ–¹ä½“æ¯ä¸ªåæ ‡è½´æ–¹å‘åˆ‡åˆ†çš„ä»½æ•°
+   int i = int((vPosition.x + uRadius) / span);//å½“å‰ç‰‡å…ƒä½ç½®å°æ–¹å—çš„è¡Œæ•°
+   int j = int((vPosition.y + uRadius) / span);//å½“å‰ç‰‡å…ƒä½ç½®å°æ–¹å—çš„å±‚æ•°
+   int k = int((vPosition.z + uRadius) / span); //å½“å‰ç‰‡å…ƒä½ç½®å°æ–¹å—çš„åˆ—æ•°
+   //è®¡ç®—å½“å‰ç‰‡å…ƒè¡Œæ•°ã€å±‚æ•°å’Œåˆ—æ•°çš„å’Œå¹¶å¯¹2å–æ¨¡
    int whichColor = int(mod(float(i+j+k),2.0));
-   if(whichColor == 1) {//ÆæÊıÊ±ÎªºìÉ«
-   		color = vec3(0.678,0.231,0.129);//ºìÉ«
+   if(whichColor == 1) {//å¥‡æ•°æ—¶ä¸ºçº¢è‰²
+   		color = vec3(0.678,0.231,0.129);//çº¢è‰²
+   } else {//å¶æ•°æ—¶ä¸ºç™½è‰²
+   		color = vec3(1.0,1.0,1.0);//ç™½è‰²
    }
-   else {//Å¼ÊıÊ±Îª°×É«
-   		color = vec3(1.0,1.0,1.0);//°×É«
-   }
-   //½«¼ÆËã³öµÄÑÕÉ«¸ø´ËÆ¬Ôª
-   gl_FragColor=vec4(color,0);
-}     
+   gl_FragColor=vec4(color,0); //å°†è®¡ç®—å‡ºçš„ç‰‡å…ƒé¢œè‰²ä¼ é€’ç»™ç®¡çº¿
+}

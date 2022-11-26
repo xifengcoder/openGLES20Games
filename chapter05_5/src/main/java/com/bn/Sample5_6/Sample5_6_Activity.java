@@ -9,7 +9,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
-import com.bn.Sample5_2.R;
+import com.bn.Sample5_3.R;
 
 public class Sample5_6_Activity extends Activity {
     private MySurfaceView mGLSurfaceView;

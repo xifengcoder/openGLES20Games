@@ -14,119 +14,101 @@ public class Ball {
     int mProgram;// 自定义渲染管线着色器程序id
     int muMVPMatrixHandle;// 总变换矩阵引用
     int maPositionHandle; // 顶点位置属性引用
-    int muRHandle;// 球的半径属性引用
+    int muRadiusHandle;// 球的半径属性引用
     String mVertexShader;// 顶点着色器
     String mFragmentShader;// 片元着色器
 
     FloatBuffer mVertexBuffer;// 顶点坐标数据缓冲
-    int vCount = 0;
+    private int vCount = 0; // 顶点数量
     float yAngle = 0;// 绕y轴旋转的角度
     float xAngle = 0;// 绕x轴旋转的角度
-    float zAngle = 0;// 绕z轴旋转的角度
-    float r = 0.8f;
+    private float zAngle = 0;// 绕z轴旋转的角度
+    private final float mRadius = 0.5f;
 
     public Ball(MySurfaceView mv) {
-        // 初始化顶点坐标与着色数据
         initVertexData();
-        // 初始化shader
         initShader(mv);
     }
 
     // 初始化顶点坐标数据的方法
     public void initVertexData() {
         // 顶点坐标数据的初始化================begin============================
-        ArrayList<Float> alVertix = new ArrayList<Float>();// 存放顶点坐标的ArrayList
-        final int angleSpan = 10;// 将球进行单位切分的角度
-        // 垂直方向angleSpan度一份
-        for (int vAngle = -90; vAngle < 90; vAngle = vAngle + angleSpan) {
-            // 水平方向angleSpan度一份
-            for (int hAngle = 0; hAngle <= 360; hAngle = hAngle + angleSpan) {
-                // 纵向横向各到一个角度后计算对应的此点在球面上的坐标
-                float x0 = (float) (r * UNIT_SIZE
-                        * Math.cos(Math.toRadians(vAngle)) * Math.cos(Math
-                        .toRadians(hAngle)));
-                float y0 = (float) (r * UNIT_SIZE
-                        * Math.cos(Math.toRadians(vAngle)) * Math.sin(Math
-                        .toRadians(hAngle)));
-                float z0 = (float) (r * UNIT_SIZE * Math.sin(Math
-                        .toRadians(vAngle)));
+        ArrayList<Float> allVertices = new ArrayList<>();// 存放顶点坐标值的ArrayList
+        final int angleSpan = 5; //将球进行单位切分的角度
+        for (int vAngle = -90; vAngle < 90; vAngle = vAngle + angleSpan) { //维度方向angleSpan度一份
+            for (int hAngle = 0; hAngle <= 360; hAngle = hAngle + angleSpan) { //经度方向angleSpan度一份
+                //计算出以当前经度、维度位置的顶点为左上侧点的四边形4个顶点的坐标
+                float x0 = (float) (mRadius * UNIT_SIZE * Math.cos(Math.toRadians(vAngle)) * //第1个顶点的坐标
+                        Math.cos(Math.toRadians(hAngle)));
+                float y0 = (float) (mRadius * UNIT_SIZE * Math.cos(Math.toRadians(vAngle)) *
+                        Math.sin(Math.toRadians(hAngle)));
+                float z0 = (float) (mRadius * UNIT_SIZE * Math.sin(Math.toRadians(vAngle)));
 
-                float x1 = (float) (r * UNIT_SIZE
-                        * Math.cos(Math.toRadians(vAngle)) * Math.cos(Math
-                        .toRadians(hAngle + angleSpan)));
-                float y1 = (float) (r * UNIT_SIZE
-                        * Math.cos(Math.toRadians(vAngle)) * Math.sin(Math
-                        .toRadians(hAngle + angleSpan)));
-                float z1 = (float) (r * UNIT_SIZE * Math.sin(Math
-                        .toRadians(vAngle)));
+                float x1 = (float) (mRadius * UNIT_SIZE * Math.cos(Math.toRadians(vAngle)) * //第2个顶点的坐标
+                        Math.cos(Math.toRadians(hAngle + angleSpan)));
+                float y1 = (float) (mRadius * UNIT_SIZE * Math.cos(Math.toRadians(vAngle)) *
+                        Math.sin(Math.toRadians(hAngle + angleSpan)));
+                float z1 = (float) (mRadius * UNIT_SIZE * Math.sin(Math.toRadians(vAngle)));
 
-                float x2 = (float) (r * UNIT_SIZE
-                        * Math.cos(Math.toRadians(vAngle + angleSpan)) * Math
-                        .cos(Math.toRadians(hAngle + angleSpan)));
-                float y2 = (float) (r * UNIT_SIZE
-                        * Math.cos(Math.toRadians(vAngle + angleSpan)) * Math
-                        .sin(Math.toRadians(hAngle + angleSpan)));
-                float z2 = (float) (r * UNIT_SIZE * Math.sin(Math
-                        .toRadians(vAngle + angleSpan)));
+                float x2 = (float) (mRadius * UNIT_SIZE * Math.cos(Math.toRadians(vAngle + angleSpan)) * //第3个顶点的坐标
+                        Math.cos(Math.toRadians(hAngle + angleSpan)));
+                float y2 = (float) (mRadius * UNIT_SIZE * Math.cos(Math.toRadians(vAngle + angleSpan)) *
+                        Math.sin(Math.toRadians(hAngle + angleSpan)));
+                float z2 = (float) (mRadius * UNIT_SIZE * Math.sin(Math.toRadians(vAngle + angleSpan)));
 
-                float x3 = (float) (r * UNIT_SIZE
-                        * Math.cos(Math.toRadians(vAngle + angleSpan)) * Math
-                        .cos(Math.toRadians(hAngle)));
-                float y3 = (float) (r * UNIT_SIZE
-                        * Math.cos(Math.toRadians(vAngle + angleSpan)) * Math
-                        .sin(Math.toRadians(hAngle)));
-                float z3 = (float) (r * UNIT_SIZE * Math.sin(Math
-                        .toRadians(vAngle + angleSpan)));
+                float x3 = (float) (mRadius * UNIT_SIZE * Math.cos(Math.toRadians(vAngle + angleSpan)) * //第4个顶点的坐标
+                        Math.cos(Math.toRadians(hAngle)));
+                float y3 = (float) (mRadius * UNIT_SIZE * Math.cos(Math.toRadians(vAngle + angleSpan)) * Math.sin(Math.toRadians(hAngle)));
+                float z3 = (float) (mRadius * UNIT_SIZE * Math.sin(Math.toRadians(vAngle + angleSpan)));
 
-                // 将计算出来的XYZ坐标加入存放顶点坐标的ArrayList
-                alVertix.add(x1);
-                alVertix.add(y1);
-                alVertix.add(z1);
-                alVertix.add(x3);
-                alVertix.add(y3);
-                alVertix.add(z3);
-                alVertix.add(x0);
-                alVertix.add(y0);
-                alVertix.add(z0);
+                //将4个顶点的坐标按照卷绕成两个三角形的需要一次存入列表。
+                allVertices.add(x1);
+                allVertices.add(y1);
+                allVertices.add(z1);
 
-                alVertix.add(x1);
-                alVertix.add(y1);
-                alVertix.add(z1);
-                alVertix.add(x2);
-                alVertix.add(y2);
-                alVertix.add(z2);
-                alVertix.add(x3);
-                alVertix.add(y3);
-                alVertix.add(z3);
+                allVertices.add(x3);
+                allVertices.add(y3);
+                allVertices.add(z3);
+
+                allVertices.add(x0);
+                allVertices.add(y0);
+                allVertices.add(z0);
+
+                allVertices.add(x1);
+                allVertices.add(y1);
+                allVertices.add(z1);
+
+                allVertices.add(x2);
+                allVertices.add(y2);
+                allVertices.add(z2);
+
+                allVertices.add(x3);
+                allVertices.add(y3);
+                allVertices.add(z3);
             }
         }
-        vCount = alVertix.size() / 3;// 顶点的数量为坐标值数量的1/3，因为一个顶点有3个坐标
+        vCount = allVertices.size() / 3;// 顶点的数量为坐标值数量的1/3，因为一个顶点有3个坐标
 
         // 将alVertix中的坐标值转存到一个float数组中
-        float vertices[] = new float[vCount * 3];
-        for (int i = 0; i < alVertix.size(); i++) {
-            vertices[i] = alVertix.get(i);
+        float[] vertices = new float[vCount * 3];
+        for (int i = 0; i < allVertices.size(); i++) {
+            vertices[i] = allVertices.get(i);
         }
 
         // 创建顶点坐标数据缓冲
-        // vertices.length*4是因为一个整数四个字节
-        ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
-        vbb.order(ByteOrder.nativeOrder());// 设置字节顺序
-        mVertexBuffer = vbb.asFloatBuffer();// 转换为int型缓冲
-        mVertexBuffer.put(vertices);// 向缓冲区中放入顶点坐标数据
+        mVertexBuffer = ByteBuffer.allocateDirect(vertices.length * 4)
+                .order(ByteOrder.nativeOrder())
+                .asFloatBuffer()
+                .put(vertices);
         mVertexBuffer.position(0);// 设置缓冲区起始位置
-        // 特别提示：由于不同平台字节顺序不同数据单元不是字节的一定要经过ByteBuffer
-        // 转换，关键是要通过ByteOrder设置nativeOrder()，否则有可能会出问题
     }
 
     // 初始化shader
     public void initShader(MySurfaceView mv) {
         // 加载顶点着色器的脚本内容
-        mVertexShader = ShaderUtil.loadFromAssetsFile("vertex.sh",
-                mv.getResources());
+        mVertexShader = ShaderUtil.loadFromAssetsFile("vertex.sh", mv.getResources());
         // 加载片元着色器的脚本内容
-        mFragmentShader = ShaderUtil.loadFromAssetsFile("frag.sh",
-                mv.getResources());
+        mFragmentShader = ShaderUtil.loadFromAssetsFile("frag.sh", mv.getResources());
         // 基于顶点着色器与片元着色器创建程序
         mProgram = ShaderUtil.createProgram(mVertexShader, mFragmentShader);
         // 获取程序中顶点位置属性引用
@@ -134,26 +116,18 @@ public class Ball {
         // 获取程序中总变换矩阵引用
         muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
         // 获取程序中球半径引用
-        muRHandle = GLES20.glGetUniformLocation(mProgram, "uR");
+        muRadiusHandle = GLES20.glGetUniformLocation(mProgram, "uRadius");
     }
 
     public void drawSelf() {
         MatrixState.rotate(xAngle, 1, 0, 0);//绕X轴转动
         MatrixState.rotate(yAngle, 0, 1, 0);//绕Y轴转动
         MatrixState.rotate(zAngle, 0, 0, 1);//绕Z轴转动
-        // 制定使用某套shader程序
         GLES20.glUseProgram(mProgram);
-        // 将最终变换矩阵传入shader程序
-        GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false,
-                MatrixState.getFinalMatrix(), 0);
-        // 将半径尺寸传入shader程序
-        GLES20.glUniform1f(muRHandle, r * UNIT_SIZE);
-        // 为画笔指定顶点位置数据
-        GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT,
-                false, 3 * 4, mVertexBuffer);
-        // 允许顶点位置数据数组
+        GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
+        GLES20.glUniform1f(muRadiusHandle, mRadius * UNIT_SIZE);
+        GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false, 3 * 4, mVertexBuffer);
         GLES20.glEnableVertexAttribArray(maPositionHandle);
-        // 绘制球
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vCount);
     }
 }

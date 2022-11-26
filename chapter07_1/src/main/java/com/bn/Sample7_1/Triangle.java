@@ -44,20 +44,22 @@ public class Triangle {
 
         //创建顶点坐标数据缓冲
         //vertices.length*4是因为一个整数四个字节
-        mVertexBuffer = ByteBuffer.allocateDirect(vertices.length * 4).order(ByteOrder.nativeOrder())
+        mVertexBuffer = ByteBuffer.allocateDirect(vertices.length * 4)
+                .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
                 .put(vertices);
         mVertexBuffer.position(0);//设置缓冲区起始位置
 
         //顶点颜色值数组，每个顶点4个色彩值RGBA
         float texCoor[] = new float[]{
-                0.5f, 0,
-                0, 1,
+                0f, 0,
+                 1,0,
                 1, 1
         };
 
         //创建顶点纹理坐标数据缓冲
-        mTexCoorBuffer = ByteBuffer.allocateDirect(texCoor.length * 4).order(ByteOrder.nativeOrder())
+        mTexCoorBuffer = ByteBuffer.allocateDirect(texCoor.length * 4)
+                .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
                 .put(texCoor);
         mTexCoorBuffer.position(0);//设置缓冲区起始位置

@@ -9,8 +9,6 @@ public class MatrixState
 	private static float[] mMVPMatrix;//最后起作用的总变换矩阵
 	static float[] mMMatrix=new float[16] ;//具体物体的移动旋转矩阵
 
-
-
 	public static void setInitStack()//获取不变换初始矩阵
 	{
 		Matrix.setRotateM(mMMatrix, 0, 0, 1, 0, 0);
