@@ -20,19 +20,13 @@ public class MyActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //设置为横屏模式
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //切换到主界面
         setContentView(R.layout.activity_main);
-        //初始化GLSurfaceView
         mGLSurfaceView = new MySurfaceView(this);
         mGLSurfaceView.requestFocus();//获取焦点
         mGLSurfaceView.setFocusableInTouchMode(true);//设置为可触控
-        //将自定义的GLSurfaceView添加到外层LinearLayout中
         LinearLayout ll = (LinearLayout) findViewById(R.id.main_liner);
         ll.addView(mGLSurfaceView);
 
-        //为RadioButton添加监听器及SxT选择代码
         RadioButton rab = (RadioButton) findViewById(R.id.edge);
         rab.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     //GL_CLAMP_TO_EDGE模式下
@@ -49,8 +43,6 @@ public class MyActivity extends Activity {
                     }
                 }
         );
-
-
         //为RadioButton添加监听器及SxT选择代码
         RadioButton rb = (RadioButton) findViewById(R.id.x11);
         rb.setOnCheckedChangeListener(

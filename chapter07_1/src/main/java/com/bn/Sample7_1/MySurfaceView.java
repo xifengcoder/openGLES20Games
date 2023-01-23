@@ -9,6 +9,8 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.view.MotionEvent;
 
+import com.yxf.opengl.common.MatrixState;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -18,14 +20,14 @@ import javax.microedition.khronos.opengles.GL10;
 class MySurfaceView extends GLSurfaceView {
     private static final float TOUCH_SCALE_FACTOR = 180.0f / 320;//角度缩放比例
 
-    private SceneRenderer mRenderer;//场景渲染器
-    private float mPreviousY;//上次的触控位置Y坐标
-    private float mPreviousX;//上次的触控位置X坐标
+    private final SceneRenderer mRenderer;//场景渲染器
+    private float mPreviousY;
+    private float mPreviousX;
     private int mTextureId;//系统分配的纹理id
 
     public MySurfaceView(Context context) {
         super(context);
-        this.setEGLContextClientVersion(2); //设置使用OPENGL ES2.0
+        setEGLContextClientVersion(2); //设置使用OPENGL ES2.0
         mRenderer = new SceneRenderer();    //创建场景渲染器
         setRenderer(mRenderer);                //设置渲染器
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);//设置渲染模式为主动渲染
@@ -38,52 +40,47 @@ class MySurfaceView extends GLSurfaceView {
         float x = e.getX();
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                float dy = y - mPreviousY;//计算触控笔Y位移
-                float dx = x - mPreviousX;//计算触控笔X位移
-                mRenderer.texRect.yAngle += dx * TOUCH_SCALE_FACTOR;//设置纹理矩形绕y轴旋转角度
-                mRenderer.texRect.zAngle += dy * TOUCH_SCALE_FACTOR;//设置第纹理矩形绕z轴旋转角度
+                float dy = y - mPreviousY;
+                float dx = x - mPreviousX;
+                mRenderer.mTriangle.yAngle += dx * TOUCH_SCALE_FACTOR;
+                mRenderer.mTriangle.zAngle += dy * TOUCH_SCALE_FACTOR;
+            default:
+                break;
         }
-        mPreviousY = y;//记录触控笔位置
-        mPreviousX = x;//记录触控笔位置
+
+        mPreviousY = y;
+        mPreviousX = x;
         return true;
     }
 
     private class SceneRenderer implements GLSurfaceView.Renderer {
-        Triangle texRect;//纹理矩形
+        private Triangle mTriangle;
 
-        public void onDrawFrame(GL10 gl) {
-            //清除深度缓冲与颜色缓冲
-            GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
-            //绘制纹理矩形
-            texRect.drawSelf(mTextureId);
-        }
-
-        public void onSurfaceChanged(GL10 gl, int width, int height) {
-            //设置视窗大小及位置
-            GLES20.glViewport(0, 0, width, height);
-            //计算GLSurfaceView的宽高比
-            float ratio = (float) width / height;
-            //调用此方法计算产生透视投影矩阵
-            MatrixState.setProject(-ratio, ratio, -1, 1, 1, 10);
-            //调用此方法产生摄像机9参数位置矩阵
-            MatrixState.setCamera(0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-        }
-
+        @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
             GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-            texRect = new Triangle(MySurfaceView.this);
-            //打开深度检测
+            mTriangle = new Triangle(MySurfaceView.this);
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-            //初始化纹理
             initTexture();
-            //关闭背面剪裁
             GLES20.glDisable(GLES20.GL_CULL_FACE);
+        }
+
+        @Override
+        public void onDrawFrame(GL10 gl) {
+            GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
+            mTriangle.drawSelf(mTextureId);
+        }
+
+        @Override
+        public void onSurfaceChanged(GL10 gl, int width, int height) {
+            GLES20.glViewport(0, 0, width, height);
+            float ratio = (float) width / height;
+            MatrixState.setProject(-ratio, ratio, -1, 1, 1, 10);
+            MatrixState.setCamera(0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         }
     }
 
-    //textureId
-    public void initTexture() {
-        //生成纹理ID
+    private void initTexture() {
         int[] textures = new int[1];
         GLES20.glGenTextures(1, textures, 0);
         mTextureId = textures[0];
