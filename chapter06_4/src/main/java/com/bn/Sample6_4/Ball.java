@@ -30,7 +30,7 @@ public class Ball {
     float yAngle = 0;// 绕y轴旋转的角度
     float xAngle = 0;// 绕x轴旋转的角度
     float zAngle = 0;// 绕z轴旋转的角度
-    float r = 0.8f;
+    float r = 1.0f;
     public Ball(MySurfaceView mv) {
         // 初始化顶点坐标与着色数据
         initVertexData();

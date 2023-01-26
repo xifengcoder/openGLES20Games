@@ -3,12 +3,14 @@ package com.bn.Sample6_3;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 public class Sample6_3_Activity extends Activity {
+    public static final String TAG = "OpenGLSample3";
     private MySurfaceView mGLSurfaceView;
 
     @Override
@@ -27,6 +29,7 @@ public class Sample6_3_Activity extends Activity {
                 new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        Log.d(TAG, "onProgressChanged progress: " + progress);
                         mGLSurfaceView.setLightOffset((seekBar.getMax() / 2.0f - progress) / (seekBar.getMax() / 2.0f) * -4);
                     }
 

@@ -1,7 +1,6 @@
 precision mediump float; //给出浮点精度
 uniform float uR; //球半径
 varying vec3 vPosition; //接收从顶点着色器过来的顶点位置
-varying vec4 vAmbient; //接收从顶点着色器过来的环境光分量
 void main() {
    vec3 color;
    float n = 8.0; //一个坐标分量分的总份数
@@ -18,7 +17,7 @@ void main() {
    		color = vec3(1.0, 1.0, 1.0); //偶数时为白色
    }
 
-   vec4 finalColor = vec4(color,0);  //最终颜色
+   vec4 finalColor = vec4(color, 0);  //最终颜色
    //给此片元颜色值，两操作数在同位置上的分量分别进行运算
-   gl_FragColor= finalColor * vAmbient;
+   gl_FragColor= finalColor * vec4(0.15, 0.15, 0.15, 1.0);;
 }
