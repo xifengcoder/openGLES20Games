@@ -10,7 +10,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name">
         <activity
-            android:name="com.bn.Sample9_1.MainActivity"
+            android:name="com.bn."
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>

@@ -81,7 +81,6 @@ public class MatrixState {
         lightLocation[0] = x;
         lightLocation[1] = y;
         lightLocation[2] = z;
-
         mLightPosByteBuffer = ByteBuffer.allocateDirect(3 * 4)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
