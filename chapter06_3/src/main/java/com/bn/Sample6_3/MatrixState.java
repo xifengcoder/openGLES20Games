@@ -18,7 +18,7 @@ public class MatrixState {
     private static int stackTop = -1;
     private static FloatBuffer mLightPosByteBuffer;
 
-    //获取不变换初始矩阵
+    //获取变换初始矩阵
     public static void setInitStack() {
         mCurrModelMatrix = new float[16];
         Matrix.setRotateM(mCurrModelMatrix, 0, 0, 0, 0, 1);
