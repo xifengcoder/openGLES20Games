@@ -10,8 +10,8 @@ import android.opengl.GLES20;
 public class LoadedObjectVertexOnly {
     int mProgram;//自定义渲染管线着色器程序id
     int muMVPMatrixHandle;//总变换矩阵引用
-    int maPositionHandle; //顶点位置属性引用
-    String mVertexShader;//顶点着色器代码脚本
+    int maPositionHandle; //顶点位置属性引用  
+    String mVertexShader;//顶点着色器代码脚本    	 
     String mFragmentShader;//片元着色器代码脚本
 
     FloatBuffer mVertexBuffer;//顶点坐标数据缓冲
@@ -49,12 +49,11 @@ public class LoadedObjectVertexOnly {
         mFragmentShader = ShaderUtil.loadFromAssetsFile("frag_color.sh", mv.getResources());
         //基于顶点着色器与片元着色器创建程序
         mProgram = ShaderUtil.createProgram(mVertexShader, mFragmentShader);
-        //获取程序中顶点位置属性引用
+        //获取程序中顶点位置属性引用  
         maPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
         //获取程序中总变换矩阵引用
         muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
     }
-
 
     public void drawSelf() {
         //制定使用某套着色器程序

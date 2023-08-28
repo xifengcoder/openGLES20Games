@@ -10,7 +10,7 @@ import android.opengl.Matrix;
 //存储系统矩阵状态的类
 public class MatrixState {
     private static float[] mProjMatrix = new float[16];//4x4矩阵 投影用
-    private static float[] mVMatrix = new float[16];//摄像机位置朝向9参数矩阵
+    private static float[] mVMatrix = new float[16];//摄像机位置朝向9参数矩阵   
     private static float[] currMatrix;//当前变换矩阵
     public static FloatBuffer cameraFB;
 
