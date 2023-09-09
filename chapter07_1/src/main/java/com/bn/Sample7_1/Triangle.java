@@ -69,7 +69,7 @@ public class Triangle {
     public void drawSelf(int texId) {
         GLES20.glUseProgram(mProgram);
         MatrixState.setInitStack();
-        MatrixState.transtate(0, 0, 1); //设置沿Z轴正向位移1
+        MatrixState.translate(0, 0, 1); //设置沿Z轴正向位移1
         MatrixState.rotate(yAngle, 0, 1, 0); //设置绕y轴旋转
         MatrixState.rotate(zAngle, 0, 0, 1); //设置绕z轴旋转
         MatrixState.rotate(xAngle, 1, 0, 0); //设置绕x轴旋转

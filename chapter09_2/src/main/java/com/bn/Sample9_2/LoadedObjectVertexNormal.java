@@ -11,12 +11,12 @@ public class LoadedObjectVertexNormal {
     int mProgram;//自定义渲染管线着色器程序id
     int muMVPMatrixHandle;//总变换矩阵引用
     int muMMatrixHandle;//位置、旋转变换矩阵
-    int maPositionHandle; //顶点位置属性引用
-    int maNormalHandle; //顶点法向量属性引用
-    int maLightLocationHandle;//光源位置属性引用
-    int maCameraHandle; //摄像机位置属性引用
-    String mVertexShader;//顶点着色器代码脚本
-    String mFragmentShader;//片元着色器代码脚本
+    int maPositionHandle; //顶点位置属性引用  
+    int maNormalHandle; //顶点法向量属性引用  
+    int maLightLocationHandle;//光源位置属性引用  
+    int maCameraHandle; //摄像机位置属性引用 
+    String mVertexShader;//顶点着色器代码脚本    	 
+    String mFragmentShader;//片元着色器代码脚本    
 
     FloatBuffer mVertexBuffer;//顶点坐标数据缓冲
     FloatBuffer mNormalBuffer;//顶点法向量数据缓冲
@@ -45,7 +45,7 @@ public class LoadedObjectVertexNormal {
         //转换，关键是要通过ByteOrder设置nativeOrder()，否则有可能会出问题
         //顶点坐标数据的初始化================end============================
 
-        //顶点法向量数据的初始化================begin============================
+        //顶点法向量数据的初始化================begin============================  
         ByteBuffer cbb = ByteBuffer.allocateDirect(normals.length * 4);
         cbb.order(ByteOrder.nativeOrder());//设置字节顺序
         mNormalBuffer = cbb.asFloatBuffer();//转换为Float型缓冲
@@ -64,9 +64,9 @@ public class LoadedObjectVertexNormal {
         mFragmentShader = ShaderUtil.loadFromAssetsFile("frag.sh", mv.getResources());
         //基于顶点着色器与片元着色器创建程序
         mProgram = ShaderUtil.createProgram(mVertexShader, mFragmentShader);
-        //获取程序中顶点位置属性引用
+        //获取程序中顶点位置属性引用  
         maPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
-        //获取程序中顶点颜色属性引用
+        //获取程序中顶点颜色属性引用  
         maNormalHandle = GLES20.glGetAttribLocation(mProgram, "aNormal");
         //获取程序中总变换矩阵引用
         muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
@@ -90,11 +90,25 @@ public class LoadedObjectVertexNormal {
         //将摄像机位置传入着色器程序
         GLES20.glUniform3fv(maCameraHandle, 1, MatrixState.cameraFB);
         // 将顶点位置数据传入渲染管线
-        GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT,
-                false, 3 * 4, mVertexBuffer);
+        GLES20.glVertexAttribPointer
+                (
+                        maPositionHandle,
+                        3,
+                        GLES20.GL_FLOAT,
+                        false,
+                        3 * 4,
+                        mVertexBuffer
+                );
         //将顶点法向量数据传入渲染管线
-        GLES20.glVertexAttribPointer(maNormalHandle, 3, GLES20.GL_FLOAT,
-                false, 3 * 4, mNormalBuffer);
+        GLES20.glVertexAttribPointer
+                (
+                        maNormalHandle,
+                        3,
+                        GLES20.GL_FLOAT,
+                        false,
+                        3 * 4,
+                        mNormalBuffer
+                );
         //启用顶点位置、法向量数据
         GLES20.glEnableVertexAttribArray(maPositionHandle);
         GLES20.glEnableVertexAttribArray(maNormalHandle);

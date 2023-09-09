@@ -23,7 +23,7 @@ public class Sample9_2_Activity extends Activity {
         mGLSurfaceView = new MySurfaceView(this);
         setContentView(mGLSurfaceView);
         mGLSurfaceView.requestFocus();//获取焦点
-        mGLSurfaceView.setFocusableInTouchMode(true);//设置为可触控
+        mGLSurfaceView.setFocusableInTouchMode(true);//设置为可触控  
     }
 
     @Override

@@ -144,35 +144,14 @@ public class Circle {
 
 
         //传送顶点位置数据
-        GLES20.glVertexAttribPointer
-                (
-                        maPositionHandle,
-                        3,
-                        GLES20.GL_FLOAT,
-                        false,
-                        3 * 4,
-                        mVertexBuffer
-                );
+        GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT,
+                        false, 3 * 4, mVertexBuffer);
         //传送顶点纹理坐标数据
-        GLES20.glVertexAttribPointer
-                (
-                        maTexCoorHandle,
-                        2,
-                        GLES20.GL_FLOAT,
-                        false,
-                        2 * 4,
-                        mTexCoorBuffer
-                );
+        GLES20.glVertexAttribPointer(maTexCoorHandle, 2, GLES20.GL_FLOAT,
+                        false, 2 * 4, mTexCoorBuffer);
         //传送顶点法向量数据
-        GLES20.glVertexAttribPointer
-                (
-                        maNormalHandle,
-                        4,
-                        GLES20.GL_FLOAT,
-                        false,
-                        3 * 4,
-                        mNormalBuffer
-                );
+        GLES20.glVertexAttribPointer(maNormalHandle, 4, GLES20.GL_FLOAT,
+                        false, 3 * 4, mNormalBuffer);
 
         //启用顶点位置数据
         GLES20.glEnableVertexAttribArray(maPositionHandle);

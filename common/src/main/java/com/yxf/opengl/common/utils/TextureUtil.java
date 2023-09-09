@@ -34,14 +34,8 @@ public class TextureUtil {
             }
         }
         //通过输入流加载图片===============end=====================
-        GLUtils.texImage2D(
-                GLES20.GL_TEXTURE_2D, //纹理类型
-                0,
-                GLUtils.getInternalFormat(bitmapTmp),
-                bitmapTmp, //纹理图像
-                GLUtils.getType(bitmapTmp),
-                0 //纹理边框尺寸
-        );
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLUtils.getInternalFormat(bitmapTmp),
+                bitmapTmp, GLUtils.getType(bitmapTmp), 0);
         bitmapTmp.recycle();          //纹理加载成功后释放图片
         return textureId;
     }

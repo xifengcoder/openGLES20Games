@@ -10,8 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OpenGLES20Games">
         <activity
-            android:name=".MainActivity"
+            android:name="com.yxf.opengl.learn.CameraCircleActivity"
             android:exported="true"
+            android:screenOrientation="landscape"
             android:label="@string/app_name"
             android:theme="@style/Theme.OpenGLES20Games.NoActionBar">
             <intent-filter>

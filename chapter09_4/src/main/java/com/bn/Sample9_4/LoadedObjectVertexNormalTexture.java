@@ -24,7 +24,7 @@ public class LoadedObjectVertexNormalTexture {
     FloatBuffer mTexCoorBuffer;//顶点纹理坐标数据缓冲
     int vCount = 0;
 
-    public LoadedObjectVertexNormalTexture(MySurfaceView mv, float[] vertices, float[] normals, float texCoors[]) {
+    public LoadedObjectVertexNormalTexture(MySurfaceView mv, float[] vertices, float[] normals, float[] texCoors) {
         //初始化顶点坐标与着色数据
         initVertexData(vertices, normals, texCoors);
         //初始化shader
@@ -32,7 +32,7 @@ public class LoadedObjectVertexNormalTexture {
     }
 
     //初始化顶点坐标与着色数据的方法
-    public void initVertexData(float[] vertices, float[] normals, float texCoors[]) {
+    public void initVertexData(float[] vertices, float[] normals, float[] texCoors) {
         //顶点坐标数据的初始化================begin============================
         vCount = vertices.length / 3;
 
@@ -40,19 +40,22 @@ public class LoadedObjectVertexNormalTexture {
         //vertices.length*4是因为一个整数四个字节
         mVertexBuffer = ByteBuffer.allocateDirect(vertices.length * 4)
                 .order(ByteOrder.nativeOrder())
-                .asFloatBuffer().put(vertices);
+                .asFloatBuffer()
+                .put(vertices);
         mVertexBuffer.position(0);//设置缓冲区起始位置
 
         //顶点法向量数据的初始化================begin============================  
         mNormalBuffer = ByteBuffer.allocateDirect(normals.length * 4)
                 .order(ByteOrder.nativeOrder())
-                .asFloatBuffer().put(normals);
+                .asFloatBuffer()
+                .put(normals);
         mNormalBuffer.position(0);//设置缓冲区起始位置
 
         //顶点纹理坐标数据的初始化================begin============================  
         mTexCoorBuffer = ByteBuffer.allocateDirect(texCoors.length * 4)
                 .order(ByteOrder.nativeOrder())
-                .asFloatBuffer().put(texCoors);
+                .asFloatBuffer()
+                .put(texCoors);
         mTexCoorBuffer.position(0);//设置缓冲区起始位置
     }
 

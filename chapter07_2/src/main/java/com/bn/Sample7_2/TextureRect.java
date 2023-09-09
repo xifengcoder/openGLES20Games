@@ -12,6 +12,8 @@ import java.nio.FloatBuffer;
 
 //纹理矩形
 public class TextureRect {
+    private static final float UNIT_SIZE = 0.3f;
+
     int mProgram;//自定义渲染管线程序id
     int muMVPMatrixHandle;//总变换矩阵引用id
     int maPositionHandle; //顶点位置属性引用id
@@ -22,6 +24,7 @@ public class TextureRect {
 
     FloatBuffer mVertexBuffer;//顶点坐标数据缓冲
     FloatBuffer mTexCoorBuffer;//顶点纹理坐标数据缓冲
+
     int vCount = 0;
     float xAngle = 0;//绕x轴旋转的角度
     float yAngle = 0;//绕y轴旋转的角度
@@ -44,8 +47,7 @@ public class TextureRect {
     public void initVertexData() {
         //顶点坐标数据的初始化================begin============================
         vCount = 6;
-        final float UNIT_SIZE = 0.3f;
-        float vertices[] = new float[]{
+        float[] vertices = new float[]{
                 -4 * UNIT_SIZE, 4 * UNIT_SIZE, 0,
                 -4 * UNIT_SIZE, -4 * UNIT_SIZE, 0,
                 4 * UNIT_SIZE, -4 * UNIT_SIZE, 0,
@@ -57,26 +59,23 @@ public class TextureRect {
 
         //创建顶点坐标数据缓冲
         //vertices.length*4是因为一个整数四个字节
-        ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
-        vbb.order(ByteOrder.nativeOrder());//设置字节顺序
-        mVertexBuffer = vbb.asFloatBuffer();//转换为Float型缓冲
-        mVertexBuffer.put(vertices);//向缓冲区中放入顶点坐标数据
-        mVertexBuffer.position(0);//设置缓冲区起始位置
-        //特别提示：由于不同平台字节顺序不同数据单元不是字节的一定要经过ByteBuffer
-        //转换，关键是要通过ByteOrder设置nativeOrder()，否则有可能会出问题
-        //顶点坐标数据的初始化================end============================
+        mVertexBuffer = ByteBuffer.allocateDirect(vertices.length * 4)
+                .order(ByteOrder.nativeOrder())
+                .asFloatBuffer()
+                .put(vertices);
+        mVertexBuffer.position(0);
 
         //顶点纹理坐标数据的初始化================begin============================
-        float texCoor[] = new float[]//顶点颜色值数组，每个顶点4个色彩值RGBA
-                {
-                        0, 0, 0, tRange, sRange, tRange,
-                        sRange, tRange, sRange, 0, 0, 0
-                };
+        //顶点颜色值数组，每个顶点4个色彩值RGBA
+        float[] texCoor = new float[]{
+                0, 0, 0, tRange, sRange, tRange,
+                sRange, tRange, sRange, 0, 0, 0};
+
         //创建顶点纹理坐标数据缓冲
-        ByteBuffer cbb = ByteBuffer.allocateDirect(texCoor.length * 4);
-        cbb.order(ByteOrder.nativeOrder());//设置字节顺序
-        mTexCoorBuffer = cbb.asFloatBuffer();//转换为Float型缓冲
-        mTexCoorBuffer.put(texCoor);//向缓冲区中放入顶点着色数据
+        mTexCoorBuffer = ByteBuffer.allocateDirect(texCoor.length * 4)
+                .order(ByteOrder.nativeOrder())
+                .asFloatBuffer()
+                .put(texCoor);
         mTexCoorBuffer.position(0);//设置缓冲区起始位置
     }
 
@@ -98,11 +97,9 @@ public class TextureRect {
         Matrix.rotateM(mMMatrix, 0, zAngle, 0, 0, 1);
         Matrix.rotateM(mMMatrix, 0, xAngle, 1, 0, 0);
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(mMMatrix), 0);
-        GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT,
-                false, 3 * 4, mVertexBuffer);
+        GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false, 3 * 4, mVertexBuffer);
         //为画笔指定顶点纹理坐标数据
-        GLES20.glVertexAttribPointer(maTexCoorHandle, 2, GLES20.GL_FLOAT,
-                false, 2 * 4, mTexCoorBuffer);
+        GLES20.glVertexAttribPointer(maTexCoorHandle, 2, GLES20.GL_FLOAT, false, 2 * 4, mTexCoorBuffer);
         //允许顶点位置数据数组
         GLES20.glEnableVertexAttribArray(maPositionHandle);
         GLES20.glEnableVertexAttribArray(maTexCoorHandle);

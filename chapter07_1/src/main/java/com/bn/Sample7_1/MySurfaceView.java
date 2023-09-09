@@ -75,7 +75,7 @@ class MySurfaceView extends GLSurfaceView {
         public void onSurfaceChanged(GL10 gl, int width, int height) {
             GLES20.glViewport(0, 0, width, height);
             float ratio = (float) width / height;
-            MatrixState.setProject(-ratio, ratio, -1, 1, 1, 10);
+            MatrixState.setProjectFrustum(-ratio, ratio, -1, 1, 1, 10);
             MatrixState.setCamera(0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         }
     }

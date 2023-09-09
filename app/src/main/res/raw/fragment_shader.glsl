@@ -1,8 +1,7 @@
 precision mediump float;
-varying highp vec3 faceNormal;
-varying highp vec2 textureCoordinate;
-uniform sampler2D inputImageTexture1;
+varying vec4 vColor;          	// This is the color from the vertex shader interpolated across the
+
 void main()
 {
-    gl_FragColor = texture2D(inputImageTexture1, textureCoordinate);
+    gl_FragColor = vColor;
 }
