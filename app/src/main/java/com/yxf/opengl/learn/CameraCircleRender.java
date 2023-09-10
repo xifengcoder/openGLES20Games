@@ -33,15 +33,20 @@ public class CameraCircleRender implements GLSurfaceView.Renderer {
     private final float[] mViewMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mMVPMatrix = new float[16];
+    private final float[] mLightPosInEyeSpace = new float[]{0.0f, 0.0f, 1.0f};
 
     private final FloatBuffer mCubePositions;
     private final FloatBuffer mCubeColors;
+    private final FloatBuffer mCubeNormals;
     private final FloatBuffer mCubeTextureCoordinates;
 
     private int mMVPMatrixHandle;
+    private int mMVMatrixHandle;
     private int mTextureUniformHandle;
     private int mPositionHandle;
     private int mColorHandle;
+    private int mNormalHandle;
+    private int mLightPosHandle;
     private int mTextureCoordinateHandle;
     private int mProgramHandle;
     private int mTextureID;
@@ -273,6 +278,12 @@ public class CameraCircleRender implements GLSurfaceView.Renderer {
                 .put(cubeColorData);
         mCubeColors.position(0);
 
+        mCubeNormals = ByteBuffer.allocateDirect(cubeNormalData.length * BYTES_PER_FLOAT)
+                .order(ByteOrder.nativeOrder())
+                .asFloatBuffer()
+                .put(cubeNormalData);
+        mCubeNormals.position(0);
+
         mCubeTextureCoordinates = ByteBuffer.allocateDirect(cubeTextureCoordinateData.length * BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
@@ -290,7 +301,7 @@ public class CameraCircleRender implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
-        GLES20.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+        GLES20.glClearColor(0f, 0f, 0f, 0.0f);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
@@ -320,9 +331,12 @@ public class CameraCircleRender implements GLSurfaceView.Renderer {
         GLES20.glUseProgram(mProgramHandle);
 
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "uMVPMatrix");
+        mMVMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "uMVMatrix");
         mTextureUniformHandle = GLES20.glGetUniformLocation(mProgramHandle, "uTexture");
         mPositionHandle = GLES20.glGetAttribLocation(mProgramHandle, "aPosition");
         mColorHandle = GLES20.glGetAttribLocation(mProgramHandle, "aColor");
+        mNormalHandle = GLES20.glGetAttribLocation(mProgramHandle, "aNormal");
+        mLightPosHandle = GLES20.glGetUniformLocation(mProgramHandle, "uLightPos");
         mTextureCoordinateHandle = GLES20.glGetAttribLocation(mProgramHandle, "aTexCoordinate");
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -343,10 +357,20 @@ public class CameraCircleRender implements GLSurfaceView.Renderer {
         GLES20.glVertexAttribPointer(mColorHandle, COLOR_DATA_SIZE, GLES20.GL_FLOAT, false,
                 0, mCubeColors);
         GLES20.glEnableVertexAttribArray(mColorHandle);
+
+        // Pass in the normal information
+        GLES20.glVertexAttribPointer(mNormalHandle, NORMAL_DATA_SIZE, GLES20.GL_FLOAT,
+                false, 0, mCubeNormals);
+        GLES20.glEnableVertexAttribArray(mNormalHandle);
+
         GLES20.glVertexAttribPointer(mTextureCoordinateHandle, TEXTURE_COORDINATE_DATA_SIZE, GLES20.GL_FLOAT,
                 false, 0, mCubeTextureCoordinates);
         GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
+
+        GLES20.glUniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
+
         Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+        GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 36);
