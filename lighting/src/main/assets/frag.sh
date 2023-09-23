@@ -2,6 +2,8 @@ precision mediump float; //指定浮点相关变量的精度
 uniform float uRadius; //从宿主程序中传入的球半径
 varying vec2 mcLongLat;//接收从顶点着色器过来的参数
 varying vec3 vPosition;//接收从顶点着色器过来的顶点位置
+varying vec4 vAmbient;//接收从顶点着色器过来的环境光分量
+
 void main()
 {
    vec3 color;
@@ -17,5 +19,8 @@ void main()
    } else {//偶数时为白色
    		color = vec3(1.0,1.0,1.0);//白色
    }
-   gl_FragColor=vec4(color,0); //将计算出的片元颜色传递给管线
+   //最终颜色
+   vec4 finalColor = vec4(color,0);
+   //给此片元颜色值
+   gl_FragColor = finalColor * vAmbient;
 }
