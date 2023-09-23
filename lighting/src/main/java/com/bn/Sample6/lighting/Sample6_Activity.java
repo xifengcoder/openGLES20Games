@@ -1,11 +1,13 @@
-package com.bn.Sample6_6;
+package com.bn.Sample6.lighting;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class Sample6_1_Activity extends Activity {
+public class Sample6_Activity extends Activity {
     private MySurfaceView mGLSurfaceView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
