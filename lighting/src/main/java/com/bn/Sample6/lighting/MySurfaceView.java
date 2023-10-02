@@ -13,6 +13,7 @@ import javax.microedition.khronos.opengles.GL10;
 class MySurfaceView extends GLSurfaceView {
     private static final float TOUCH_SCALE_FACTOR = 180.0f / 320;
     private SceneRenderer mRenderer;//场景渲染器
+    private float lightOffset = -4;//灯光的位置或方向的偏移量
     Ball mBall;//球
 
     private float mPreviousY;//上次的触控位置Y坐标
@@ -75,6 +76,9 @@ class MySurfaceView extends GLSurfaceView {
         public void onDrawFrame(GL10 gl) {
             //清除深度缓冲与颜色缓冲
             GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
+
+            MatrixState.setLightLocation(lightOffset, 0, 1.5f); //设置光源位置
+
             //保护现场
             MatrixState.pushMatrix();
             //绘制球
@@ -90,5 +94,9 @@ class MySurfaceView extends GLSurfaceView {
             //恢复现场
             MatrixState.popMatrix();
         }
+    }
+
+    public void setLightOffset(float value) {
+        this.lightOffset = value;
     }
 }
