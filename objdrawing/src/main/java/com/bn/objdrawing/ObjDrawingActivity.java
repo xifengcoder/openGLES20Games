@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class Sample9_1_Activity extends Activity {
+public class ObjDrawingActivity extends Activity {
     private MySurfaceView mGLSurfaceView;
 
     @Override

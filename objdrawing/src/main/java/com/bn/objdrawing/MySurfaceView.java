@@ -9,6 +9,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 
+import com.yxf.opengl.common.MatrixState;
+
 class MySurfaceView extends GLSurfaceView {
     private final float TOUCH_SCALE_FACTOR = 180.0f / 320;//角度缩放比例
     private SceneRenderer mRenderer;//场景渲染器    
@@ -89,6 +91,8 @@ class MySurfaceView extends GLSurfaceView {
             GLES20.glEnable(GLES20.GL_CULL_FACE);
             //初始化变换矩阵
             MatrixState.setInitStack();
+            //初始化光源位置
+            MatrixState.setLightLocation(40, 10, 20);
             //加载要绘制的物体
             lovo = LoadUtil.loadFromFile("ch.obj", MySurfaceView.this.getResources(), MySurfaceView.this);
         }
