@@ -25,3 +25,4 @@ include ':chapter09_3'
 include ':chapter09_4'
 include ':common'
 include ":lighting"
+include ":objdrawing"
