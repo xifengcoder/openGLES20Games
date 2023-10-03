@@ -20,7 +20,7 @@ public class Ball {
     int maPositionHandle; // 顶点位置属性引用
     int muRadiusHandle;// 球的半径属性引用
     int maNormalHandle; //顶点法向量属性引用
-    int maLightLocationHandle;//光源位置属性引用
+    int muLightDirectionHandle; //定向光方向一致变量的引用
     int maCameraHandle;
 
     String mVertexShader;// 顶点着色器
@@ -135,7 +135,7 @@ public class Ball {
         muMMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMMatrix");
         // 获取程序中球半径引用
         muRadiusHandle = GLES20.glGetUniformLocation(mProgram, "uRadius");
-        maLightLocationHandle = GLES20.glGetUniformLocation(mProgram, "uLightLocation");
+        muLightDirectionHandle = GLES20.glGetUniformLocation(mProgram, "uLightDirection");
         maCameraHandle = GLES20.glGetUniformLocation(mProgram, "uCamera");
     }
 
@@ -147,8 +147,8 @@ public class Ball {
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
         GLES20.glUniformMatrix4fv(muMMatrixHandle, 1, false, MatrixState.getMMatrix(), 0);
         GLES20.glUniform1f(muRadiusHandle, mRadius * UNIT_SIZE);
-        GLES20.glUniform3fv(maLightLocationHandle, 1, MatrixState.lightPositionFB);
         GLES20.glUniform3fv(maCameraHandle, 1, MatrixState.cameraFB);
+        GLES20.glUniform3fv(muLightDirectionHandle, 1, MatrixState.lightDirectionFB);
         GLES20.glVertexAttribPointer(maNormalHandle, 3, GLES20.GL_FLOAT, false, 3 * 4, mNormalBuffer);
         GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false, 3 * 4, mVertexBuffer);
         GLES20.glEnableVertexAttribArray(maPositionHandle);

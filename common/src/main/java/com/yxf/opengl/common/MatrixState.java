@@ -11,9 +11,14 @@ public class MatrixState {
     private static float[] mProjMatrix = new float[16];//4x4矩阵 投影用
     private static float[] mVMatrix = new float[16];//摄像机位置朝向9参数矩阵
     private static float[] currMatrix;//当前变换矩阵
+
     public static float[] lightLocation = new float[]{0, 0, 0};//定位光光源位置
-    public static FloatBuffer cameraFB;
     public static FloatBuffer lightPositionFB;
+
+    public static float[] lightDirection = new float[]{0, 0, 1};//定向光方向向量数组
+    public static FloatBuffer lightDirectionFB;//定向光方向向量数据缓冲
+
+    public static FloatBuffer cameraFB;
     //设置灯光位置的方法
     static ByteBuffer llbbL = ByteBuffer.allocateDirect(3 * 4);
     //设置摄像机
@@ -158,9 +163,23 @@ public class MatrixState {
         lightLocation[1] = y;
         lightLocation[2] = z;
 
-        llbbL.order(ByteOrder.nativeOrder());//设置字节顺序
-        lightPositionFB = llbbL.asFloatBuffer();
-        lightPositionFB.put(lightLocation);
+        lightPositionFB = llbbL.order(ByteOrder.nativeOrder())
+                .asFloatBuffer()
+                .put(lightLocation);
         lightPositionFB.position(0);
+    }
+
+    //设置灯光方向的方法
+    public static void setLightDirection(float x, float y, float z) {
+        llbbL.clear();
+
+        lightDirection[0] = x;
+        lightDirection[1] = y;
+        lightDirection[2] = z;
+
+        lightDirectionFB = llbbL.order(ByteOrder.nativeOrder())
+                .asFloatBuffer()
+                .put(lightDirection);
+        lightDirectionFB.position(0);
     }
 }

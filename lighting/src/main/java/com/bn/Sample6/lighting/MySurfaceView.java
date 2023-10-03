@@ -77,7 +77,7 @@ class MySurfaceView extends GLSurfaceView {
             //清除深度缓冲与颜色缓冲
             GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 
-            MatrixState.setLightLocation(lightOffset, 0, 1.5f); //设置光源位置
+            MatrixState.setLightDirection(lightOffset, 0, 1.5f); //设置光源位置
 
             //保护现场
             MatrixState.pushMatrix();
