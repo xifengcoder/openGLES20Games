@@ -42,6 +42,10 @@ public class LoadUtil {
         //平均前各个索引对应的点的法向量集合Map
         //此HashMap的key为点的索引，value为点所在的各个面的法向量的集合
         HashMap<Integer, HashSet<Normal>> hmn = new HashMap<>();
+        //原始纹理坐标列表
+        ArrayList<Float> alt = new ArrayList<Float>();
+        //纹理坐标结果列表
+        ArrayList<Float> altResult = new ArrayList<Float>();
 
         try {
             InputStream in = r.getAssets().open(fname);
@@ -58,6 +62,10 @@ public class LoadUtil {
                     alv.add(Float.parseFloat(tempsa[1]));
                     alv.add(Float.parseFloat(tempsa[2]));
                     alv.add(Float.parseFloat(tempsa[3]));
+                } else if (tempsa[0].trim().equals("vt")) {//此行为纹理坐标行
+                    //若为纹理坐标行则提取ST坐标并添加进原始纹理坐标列表中
+                    alt.add(Float.parseFloat(tempsa[1]) / 2.0f);
+                    alt.add(Float.parseFloat(tempsa[2]) / 2.0f);
                 } else if (tempsa[0].trim().equals("f")) {//此行为三角形面
                     /*
                      * 若为三角形面行，则根据组成面的顶点的索引，从alv中提取相应的顶点坐标值，添加到alvResult中，
@@ -123,6 +131,20 @@ public class LoadUtil {
                         //将集合放进HashMap中
                         hmn.put(tempIndex, hsn);
                     }
+
+                    //将纹理坐标组织到结果纹理坐标列表中
+                    //第0个顶点的纹理坐标
+                    int indexTex = Integer.parseInt(tempsa[1].split("/")[1]) - 1;
+                    altResult.add(alt.get(indexTex * 2));
+                    altResult.add(alt.get(indexTex * 2 + 1));
+                    //第1个顶点的纹理坐标
+                    indexTex = Integer.parseInt(tempsa[2].split("/")[1]) - 1;
+                    altResult.add(alt.get(indexTex * 2));
+                    altResult.add(alt.get(indexTex * 2 + 1));
+                    //第2个顶点的纹理坐标
+                    indexTex = Integer.parseInt(tempsa[3].split("/")[1]) - 1;
+                    altResult.add(alt.get(indexTex * 2));
+                    altResult.add(alt.get(indexTex * 2 + 1));
                 }
             }
 
@@ -148,8 +170,15 @@ public class LoadUtil {
                 nXYZ[c++] = tn[2];
             }
 
+            //生成纹理数组
+            size = altResult.size();
+            float[] tST = new float[size];
+            for (int i = 0; i < size; i++) {
+                tST[i] = altResult.get(i);
+            }
+
             //创建3D对象
-            lo = new LoadedObjectVertex(mv, vXYZ, nXYZ);
+            lo = new LoadedObjectVertex(mv, vXYZ, nXYZ, tST);
         } catch (Exception e) {
             Log.d("load error", "load error");
             e.printStackTrace();

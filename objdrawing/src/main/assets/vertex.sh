@@ -5,10 +5,12 @@ uniform vec3 uCamera;        //摄像机位置
 
 attribute vec3 aPosition;  //顶点位置
 attribute vec3 aNormal;  //顶点法向量
+attribute vec2 aTexCoor; //顶点纹理坐标
 
 varying vec4 vAmbient; //用于传递给片元着色器的环境光最终强度
 varying vec4 vDiffuse; //用于传递给片元着色器的散射光最终强度
 varying vec4 vSpecular; //用于传递给片元着色器的散射光分量
+varying vec2 vTextureCoord;
 
 void pointLight(                      //定位光光照计算的方法
     	inout vec4 lightAmbient,			//环境光最终强度
@@ -41,5 +43,6 @@ void main(){
 	vAmbient = lightAmbient; 		//将环境光最终强度传给片元着色器
 	vDiffuse = lightDiffuse; 		//将散射光最终强度传给片元着色器
 	vSpecular = lightSpecular; 		//将镜面光最终强度传给片元着色器
+	vTextureCoord = aTexCoor;       //将接收的纹理坐标传递给片元着色器
 	gl_Position = uMVPMatrix * vec4(aPosition, 1); //根据总变换矩阵计算此次绘制此顶点的位置
 }
