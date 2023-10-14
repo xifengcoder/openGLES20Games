@@ -156,6 +156,12 @@ public class MatrixState {
         return mVMatrix;
     }
 
+    public static float[] getViewProjMatrix() {
+        float[] mMVPMatrix = new float[16];
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
+        return mMVPMatrix;
+    }
+
     public static void setLightLocation(float x, float y, float z) {
         llbbL.clear();
 

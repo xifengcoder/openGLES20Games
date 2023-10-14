@@ -25,6 +25,10 @@ include ':chapter09_3'
 include ':chapter09_4'
 include ':chapter10_1'
 include ':chapter10_2'
+include ':chapter10_3'
+include ":volume2_chapter01_1"
+include ":volume2_chapter04_2"
+include ":opengles3_chapter05_1"
 include ':common'
 include ":lighting"
 include ":objdrawing"
