@@ -1,33 +1,33 @@
-//µØÇò×ÅÉ«Æ÷
+//åœ°çƒç€è‰²å™¨
 precision mediump float;
-varying vec2 vTextureCoord;//½ÓÊÕ´Ó¶¥µã×ÅÉ«Æ÷¹ýÀ´µÄ²ÎÊý
+varying vec2 vTextureCoord;//æŽ¥æ”¶ä»Žé¡¶ç‚¹ç€è‰²å™¨è¿‡æ¥çš„å‚æ•°
 varying vec4 vAmbient;
 varying vec4 vDiffuse;
 varying vec4 vSpecular;
-uniform sampler2D sTextureDay;//ÎÆÀíÄÚÈÝÊý¾Ý
-uniform sampler2D sTextureNight;//ÎÆÀíÄÚÈÝÊý¾Ý
-void main()                         
-{  
-  //¸ø´ËÆ¬Ôª´ÓÎÆÀíÖÐ²ÉÑù³öÑÕÉ«Öµ   
-  vec4 finalColorDay;   
-  vec4 finalColorNight;   
-  
+uniform sampler2D sTextureDay;//çº¹ç†å†…å®¹æ•°æ®
+uniform sampler2D sTextureNight;//çº¹ç†å†…å®¹æ•°æ®
+void main()
+{
+  //ç»™æ­¤ç‰‡å…ƒä»Žçº¹ç†ä¸­é‡‡æ ·å‡ºé¢œè‰²å€¼
+  vec4 finalColorDay;
+  vec4 finalColorNight;
+
   finalColorDay= texture2D(sTextureDay, vTextureCoord);
   finalColorDay = finalColorDay*vAmbient+finalColorDay*vSpecular+finalColorDay*vDiffuse;
-  finalColorNight = texture2D(sTextureNight, vTextureCoord); 
+  finalColorNight = texture2D(sTextureNight, vTextureCoord);
   finalColorNight = finalColorNight*vec4(0.5,0.5,0.5,1.0);
-  
+
   if(vDiffuse.x>0.21)
   {
-    gl_FragColor=finalColorDay;    
-  } 
+    gl_FragColor=finalColorDay;
+  }
   else if(vDiffuse.x<0.05)
-  {     
+  {
      gl_FragColor=finalColorNight;
   }
   else
   {
      float t=(vDiffuse.x-0.05)/0.16;
      gl_FragColor=t*finalColorDay+(1.0-t)*finalColorNight;
-  }  
-}              
+  }
+}

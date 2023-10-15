@@ -52,9 +52,9 @@ class MySurfaceView extends GLSurfaceView {
                 //触控横向位移太阳绕y轴旋转
                 float dx = x - mPreviousX;//计算触控笔X位移
                 yAngle += dx * TOUCH_SCALE_FACTOR;//设置太阳绕y轴旋转的角度
-                float sunx = (float) (Math.cos(Math.toRadians(yAngle)) * 100);
-                float sunz = -(float) (Math.sin(Math.toRadians(yAngle)) * 100);
-                MatrixState.setLightLocationSun(sunx, 5, sunz);
+                float sunX = (float) (Math.cos(Math.toRadians(yAngle)) * 100);
+                float sunZ = -(float) (Math.sin(Math.toRadians(yAngle)) * 100);
+                MatrixState.setLightLocationSun(sunX, 5, sunZ);
 
                 //触控纵向位移摄像机绕x轴旋转 -90～+90
                 float dy = y - mPreviousY;//计算触控笔Y位移
@@ -96,47 +96,32 @@ class MySurfaceView extends GLSurfaceView {
         public void onDrawFrame(GL10 gl) {
             GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
             MatrixState.pushMatrix();
-            //地球自转
-            MatrixState.rotate(eAngle, 0, 1, 0);
-            //绘制纹理圆球
-            earth.drawSelf(textureIdEarth, textureIdEarthNight);
-            //推坐标系到月球位置
-            MatrixState.transtate(2f, 0, 0);
-            //月球自转
-            MatrixState.rotate(eAngle, 0, 1, 0);
-            //绘制月球
-            moon.drawSelf(textureIdMoon);
-            //恢复现场
-            MatrixState.popMatrix();
+            MatrixState.rotate(eAngle, 0, 1, 0); //地球自转
+            earth.drawSelf(textureIdEarth, textureIdEarthNight); //绘制纹理圆球
+            MatrixState.transtate(2f, 0, 0); //推坐标系到月球位置
+            MatrixState.rotate(eAngle, 0, 1, 0); //月球自转
+            moon.drawSelf(textureIdMoon); //绘制月球
+            MatrixState.popMatrix();  //恢复现场
 
-            //保护现场
             MatrixState.pushMatrix();
             MatrixState.rotate(cAngle, 0, 1, 0);
             cSmall.drawSelf();
             cBig.drawSelf();
-            //恢复现场
             MatrixState.popMatrix();
         }
 
-
         @Override
         public void onSurfaceChanged(GL10 gl, int width, int height) {
-            //设置视窗大小及位置
             GLES20.glViewport(0, 0, width, height);
-            //计算GLSurfaceView的宽高比
-            ratio = (float) width / height;
-            //调用此方法计算产生透视投影矩阵
-            MatrixState.setProjectFrustum(-ratio, ratio, -1, 1, 4f, 100);
-            //调用此方法产生摄像机9参数位置矩阵
-            MatrixState.setCamera(0, 0, 7.2f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-            //打开背面剪裁
             GLES20.glEnable(GLES20.GL_CULL_FACE);
-            //初始化纹理
+            ratio = (float) width / height;
+            MatrixState.setProjectFrustum(-ratio, ratio, -1, 1, 4f, 100);
+            MatrixState.setCamera(0, 0, 7.2f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             textureIdEarth = initTexture(R.drawable.earth);
             textureIdEarthNight = initTexture(R.drawable.earthn);
             textureIdMoon = initTexture(R.drawable.moon);
             //设置太阳灯光的初始位置
-            MatrixState.setLightLocationSun(100, 5, 0);
+            MatrixState.setLightLocationSun(200, 5, 0);
 
             //启动一个线程定时旋转地球、月球
             new Thread() {
