@@ -17,16 +17,11 @@ void main()
   finalColorNight = texture2D(sTextureNight, vTextureCoord);
   finalColorNight = finalColorNight*vec4(0.5,0.5,0.5,1.0);
 
-  if(vDiffuse.x>0.21)
-  {
+  if(vDiffuse.x>0.21) {
     gl_FragColor=finalColorDay;
-  }
-  else if(vDiffuse.x<0.05)
-  {
+  } else if(vDiffuse.x<0.05) {
      gl_FragColor=finalColorNight;
-  }
-  else
-  {
+  } else {
      float t=(vDiffuse.x-0.05)/0.16;
      gl_FragColor=t*finalColorDay+(1.0-t)*finalColorNight;
   }

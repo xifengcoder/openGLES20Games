@@ -49,18 +49,22 @@ public class Earth {
                 float x1 = (float) (xozLength * Math.cos(Math.toRadians(hAngle)));
                 float z1 = (float) (xozLength * Math.sin(Math.toRadians(hAngle)));
                 float y1 = (float) (r * UNIT_SIZE * Math.sin(Math.toRadians(vAngle)));
+
                 xozLength = r * UNIT_SIZE * Math.cos(Math.toRadians(vAngle - ANGLE_SPAN));
                 float x2 = (float) (xozLength * Math.cos(Math.toRadians(hAngle)));
                 float z2 = (float) (xozLength * Math.sin(Math.toRadians(hAngle)));
                 float y2 = (float) (r * UNIT_SIZE * Math.sin(Math.toRadians(vAngle - ANGLE_SPAN)));
+
                 xozLength = r * UNIT_SIZE * Math.cos(Math.toRadians(vAngle - ANGLE_SPAN));
                 float x3 = (float) (xozLength * Math.cos(Math.toRadians(hAngle - ANGLE_SPAN)));
                 float z3 = (float) (xozLength * Math.sin(Math.toRadians(hAngle - ANGLE_SPAN)));
                 float y3 = (float) (r * UNIT_SIZE * Math.sin(Math.toRadians(vAngle - ANGLE_SPAN)));
+
                 xozLength = r * UNIT_SIZE * Math.cos(Math.toRadians(vAngle));
                 float x4 = (float) (xozLength * Math.cos(Math.toRadians(hAngle - ANGLE_SPAN)));
                 float z4 = (float) (xozLength * Math.sin(Math.toRadians(hAngle - ANGLE_SPAN)));
                 float y4 = (float) (r * UNIT_SIZE * Math.sin(Math.toRadians(vAngle)));
+
                 //构建第一三角形
                 alVertix.add(x1);
                 alVertix.add(y1);
@@ -88,7 +92,7 @@ public class Earth {
                 alVertix.add(z3);
             }
         }
-        vCount = alVertix.size() / 3;//顶点的数量为坐标值数量的1/3，因为一个顶点有3个坐标
+        vCount = alVertix.size() / 3; //顶点的数量为坐标值数量的1/3，因为一个顶点有3个坐标
         //将alVertix中的坐标值转存到一个float数组中
         float[] vertices = new float[vCount * 3];
         for (int i = 0; i < alVertix.size(); i++) {
@@ -113,7 +117,7 @@ public class Earth {
         mTexCoorBuffer.position(0);
     }
 
-    public void initShader(MySurfaceView mv) { //初始化着色器
+    public void initShader(MySurfaceView mv) {
         //加载顶点着色器的脚本内容
         mVertexShader = ShaderUtil.loadFromAssetsFile("vertex_earth.sh", mv.getResources());
         ShaderUtil.checkGlError("==ss==");

@@ -20,7 +20,6 @@ public class SphereActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         mGLSurfaceView = new MySurfaceView(this);
-        mGLSurfaceView.setBackgroundColor(getResources().getColor(R.color.gray));
         setContentView(mGLSurfaceView);
         mGLSurfaceView.requestFocus();
         mGLSurfaceView.setFocusableInTouchMode(true);
@@ -29,12 +28,14 @@ public class SphereActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        mGLSurfaceView.onResume();
         Constant.threadFlag = true;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mGLSurfaceView.onPause();
         Constant.threadFlag = false;
     }
 }
