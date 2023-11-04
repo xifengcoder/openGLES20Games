@@ -113,6 +113,10 @@ public class MatrixState {
         Matrix.frustumM(mProjMatrix, 0, left, right, bottom, top, near, far);
     }
 
+    public static void setProjectFrustum(int offset, float fovy, float aspect, float zNear, float zFar) {
+        Matrix.perspectiveM(mProjMatrix, offset, fovy, aspect, zNear, zFar);
+    }
+
     /**
      * 设置正交投影参数
      *

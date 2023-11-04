@@ -1,5 +1,6 @@
 rootProject.name = "OpenGLES20Games"
 include ':app'
+include ':coordinate_systems'
 include ':chapter03'
 include ':chapter05_2'
 include ':chapter05_3'
@@ -33,3 +34,4 @@ include ':common'
 include ":lighting"
 include ":objdrawing"
 include ":sphere"
+

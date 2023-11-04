@@ -46,16 +46,15 @@ public class TextureRect {
     public void initVertexData() {
         //顶点坐标数据的初始化================begin============================
         vCount = 6;//每个格子两个三角形，每个三角形3个顶点
-        float vertices[] =
-                {
-                        -width / 2, height / 2, 0,
-                        -width / 2, -height / 2, 0,
-                        width / 2, height / 2, 0,
+        float vertices[] = {
+                -width / 2, height / 2, 0,
+                -width / 2, -height / 2, 0,
+                width / 2, height / 2, 0,
 
-                        -width / 2, -height / 2, 0,
-                        width / 2, -height / 2, 0,
-                        width / 2, height / 2, 0
-                };
+                -width / 2, -height / 2, 0,
+                width / 2, -height / 2, 0,
+                width / 2, height / 2, 0
+        };
         //创建顶点坐标数据缓冲
         //vertices.length*4是因为一个整数四个字节
         ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
@@ -63,20 +62,22 @@ public class TextureRect {
         mVertexBuffer = vbb.asFloatBuffer();//转换为int型缓冲
         mVertexBuffer.put(vertices);//向缓冲区中放入顶点坐标数据
         mVertexBuffer.position(0);//设置缓冲区起始位置
-        float textures[] =
-                {
-                        0f, 0f, 0f, 1, 1, 0f,
-                        0f, 1, 1, 1, 1, 0f
-                };
+
+        float[] textures = {
+                0f, 0f,
+                0f, 1,
+                1, 0f,
+                0f, 1,
+                1, 1,
+                1, 0f
+        };
+
         //创建顶点纹理数据缓冲
         ByteBuffer tbb = ByteBuffer.allocateDirect(textures.length * 4);
         tbb.order(ByteOrder.nativeOrder());//设置字节顺序
         mTextureBuffer = tbb.asFloatBuffer();//转换为Float型缓冲
         mTextureBuffer.put(textures);//向缓冲区中放入顶点着色数据
         mTextureBuffer.position(0);//设置缓冲区起始位置
-        //特别提示：由于不同平台字节顺序不同数据单元不是字节的一定要经过ByteBuffer
-        //转换，关键是要通过ByteOrder设置nativeOrder()，否则有可能会出问题
-        //顶点纹理数据的初始化================end============================
     }
 
     public void initShader(MySurfaceView mv) {
@@ -100,25 +101,11 @@ public class TextureRect {
         //将最终变换矩阵传入着色器程序
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
         //将顶点法向量数据传入渲染管线
-        GLES20.glVertexAttribPointer
-                (
-                        maPositionHandle,
-                        3,
-                        GLES20.GL_FLOAT,
-                        false,
-                        3 * 4,
-                        mVertexBuffer
-                );
+        GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT,
+                false, 3 * 4, mVertexBuffer);
         //将纹理数据传入渲染管线
-        GLES20.glVertexAttribPointer
-                (
-                        maTexCoorHandle,
-                        2,
-                        GLES20.GL_FLOAT,
-                        false,
-                        2 * 4,
-                        mTextureBuffer
-                );
+        GLES20.glVertexAttribPointer(maTexCoorHandle, 2, GLES20.GL_FLOAT,
+                false, 2 * 4, mTextureBuffer);
         //允许顶点位置数据数组
         GLES20.glEnableVertexAttribArray(maPositionHandle);
         GLES20.glEnableVertexAttribArray(maTexCoorHandle);
